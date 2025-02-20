@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   session({
-    secret: "P4-JFFA25#Lost-SesionesHTTP-VariablesDeSesion",
+    secret: "P4-Edwincamp#edwin-SesionesHTTP-VariablesDeSesion",
     resave: false,
     saveUninitialized: false,
     rolling: true,
@@ -78,8 +78,8 @@ const formatTime = (seconds) => {
 // Bienvenida
 app.get("/welcome", (req, res) => {
   return res.status(200).json({
-    message: "Bienvenido a la API DevFarias.",
-    author: "Al Farias Leyva",
+    message: "Bienvenido a la API de Edwin.",
+    author: "Edwin Campos",
   });
 });
 
