@@ -1,27 +1,52 @@
-import mongoose from "mongoose";
-import moment from "moment-timezone";
-
-const sessionSchema = new mongoose.Schema({
-  sessionId: { type: String, required: true, unique: true },
-  email: { type: String, required: true },
-  nickname: { type: String, required: true },
-  macAddress: { type: String, required: true },
-  ip: { type: String, required: true },
-  serverIp: { type: String, required: true },
-  serverMacAddress: { type: String, required: true },
-  createdAt: { 
-    type: String, 
-    default: () => moment().tz("America/Mexico_City").format("YYYY-MM-DD HH:mm:ss") 
-  },
-  lastAccessedAt: { 
-    type: String, 
-    default: () => moment().tz("America/Mexico_City").format("YYYY-MM-DD HH:mm:ss") 
-  },
-  status: { 
-    type: String, 
-    enum: ["Activa", "Inactiva", "Finalizada por el Usuario", "Finalizada por Falla de Sistema"], 
-    default: "Activa" 
-  }
-}, { versionKey: false });
-
-export default mongoose.model("Session", sessionSchema);
+import {model, Schema} from 'mongoose'
+import moment from 'moment-timezone'
+import {v4 as uuidv4} from 'uuid'
+const sessionSchema = new Schema({
+    sessionID: {
+      type: String,
+      default: () => uuidv4(),
+      unique: true,
+      required: true
+    },
+    email: { type: String, required: true },
+    nickname: { type: String, required: true },
+    createdAt: {
+      type: Date,
+      default: () => moment(new Date()).tz('America/Mexico_City').format('YYYY-MM-DD HH:mm:ss'),
+      required: true
+    },
+    lastAccess: {
+      type: Date,
+      default: () => moment(new Date()).tz('America/Mexico_City').format('YYYY-MM-DD HH:mm:ss'),
+      required: true
+    },
+    status: {
+      type: String,
+      enum: ["Activa", "Inactiva", "Finalizada por el Usuario", "Finalizada por Error del Sistema"],
+      default: "Activa",
+      required: true
+    },
+    clientData: {
+      ip: { type: String, required: true },
+      macAddress: { type: String, required: true }
+    },
+    serverData: {
+      ip: { type: String, required: true },
+      macAddress: { type: String, required: true }
+    },
+    inactivityTime: {
+      hours: { type: Number, default: 0, required: true, min: 0 },
+      minutes: { type: Number, default: 0, required: true, min: 0, max: 59 },
+      seconds: { type: Number, default: 0, required: true, min: 0, max: 59 }
+    },
+    durationTime: {
+      hours: { type: Number, default: 0, required: true, min: 0 },
+      minutes: { type: Number, default: 0, required: true, min: 0, max: 59 },
+      seconds: { type: Number, default: 0, required: true, min: 0, max: 59 }
+    }
+  },{
+    versionKey:false,
+    timestamps:false
+  });
+  
+  export default model('Session', sessionSchema);

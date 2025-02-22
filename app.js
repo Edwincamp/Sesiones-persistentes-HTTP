@@ -7,8 +7,8 @@ import session from 'express-session'
 import moment from 'moment-timezone'
 import os from 'os'
 import cors from 'cors'
-//10.10.60.27 Marco
-//10.10.60.15 Citlali
+
+
 mongoose.connect('mongodb+srv://Edwincampos:Edwin230411@clusteredwin.txagr.mongodb.net/API-AWI4_0-230425?retryWrites=true&w=majority&appName=Clusteredwin').then((db)=>console.log('MongoDB atlas connected'))
 const app = express();
 app.use(express.urlencoded({extended:true}))
@@ -119,12 +119,12 @@ const auth = async (req, res, next) => {
         if (session.status!='Inactiva'){
             session.inactivityTime = {
                 hours: Math.floor(diferencia / 3600),
-                minutes: Math.floor((diferencia % 3600) / 60),
+                minutes: Math.floor((diferencia % 3600) / 1200),
                 seconds: diferencia % 60,
             };
             session.durationTime = {
                 hours: Math.floor(duracion / 3600),
-                minutes: Math.floor((duracion % 3600) / 60),
+                minutes: Math.floor((duracion % 3600) / 120),
                 seconds: duracion % 60,
             };
         }
